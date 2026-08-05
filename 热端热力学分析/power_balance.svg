@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="560" viewBox="0 0 820 560" font-family="Helvetica, Arial, sans-serif">
+
+<line x1="78" y1="474" x2="768" y2="474" stroke="#666" stroke-width="1"/>
+<line x1="78" y1="474" x2="78" y2="44" stroke="#666" stroke-width="1"/>
+<line x1="74" y1="474.0" x2="78" y2="474.0" stroke="#666"/>
+<text x="70" y="478.0" font-size="12" text-anchor="end">0</text>
+<line x1="74" y1="328.9" x2="78" y2="328.9" stroke="#666"/>
+<text x="70" y="332.9" font-size="12" text-anchor="end">30</text>
+<line x1="74" y1="183.8" x2="78" y2="183.8" stroke="#666"/>
+<text x="70" y="187.8" font-size="12" text-anchor="end">60</text>
+<line x1="74" y1="38.6" x2="78" y2="38.6" stroke="#666"/>
+<text x="70" y="42.6" font-size="12" text-anchor="end">90</text>
+<line x1="74" y1="-106.5" x2="78" y2="-106.5" stroke="#666"/>
+<text x="70" y="-102.5" font-size="12" text-anchor="end">120</text>
+<text x="68" y="259.0" font-size="13" text-anchor="middle" transform="rotate(-90 68 259.0)">功率 (W)</text>
+<rect x="118" y="212.8" width="64" height="261.2" fill="#1f77b4"/>
+<text x="150.0" y="207.8" font-size="11" text-anchor="middle">54</text>
+<rect x="208" y="397.2" width="64" height="76.8" fill="#2ca02c"/>
+<text x="240.0" y="392.2" font-size="11" text-anchor="middle">16</text>
+<rect x="298" y="414.6" width="64" height="59.4" fill="#ff7f0e"/>
+<text x="330.0" y="409.6" font-size="11" text-anchor="middle">12</text>
+<rect x="388" y="463.0" width="64" height="11.0" fill="#9467bd"/>
+<rect x="478" y="65.5" width="64" height="408.5" fill="#d62728"/>
+<text x="510.0" y="60.5" font-size="11" text-anchor="middle">84</text>
+<text x="343.0" y="502" font-size="13" font-weight="bold" text-anchor="middle">PETG</text>
+<rect x="658" y="224.4" width="64" height="249.6" fill="#1f77b4"/>
+<text x="690.0" y="219.4" font-size="11" text-anchor="middle">52</text>
+<rect x="748" y="402.3" width="64" height="71.7" fill="#2ca02c"/>
+<text x="780.0" y="397.3" font-size="11" text-anchor="middle">15</text>
+<rect x="838" y="421.9" width="64" height="52.1" fill="#ff7f0e"/>
+<text x="870.0" y="416.9" font-size="11" text-anchor="middle">11</text>
+<rect x="928" y="463.8" width="64" height="10.2" fill="#9467bd"/>
+<rect x="1018" y="90.4" width="64" height="383.6" fill="#d62728"/>
+<text x="1050.0" y="85.4" font-size="11" text-anchor="middle">79</text>
+<text x="883.0" y="502" font-size="13" font-weight="bold" text-anchor="middle">ABS</text>
+<rect x="128" y="52" width="18" height="12" fill="#1f77b4"/>
+<text x="152" y="64" font-size="12">P_melt
+(融化耗热)</text>
+<rect x="128" y="72" width="18" height="12" fill="#2ca02c"/>
+<text x="152" y="84" font-size="12">对流</text>
+<rect x="128" y="92" width="18" height="12" fill="#ff7f0e"/>
+<text x="152" y="104" font-size="12">辐射</text>
+<rect x="128" y="112" width="18" height="12" fill="#9467bd"/>
+<text x="152" y="124" font-size="12">喉管导热</text>
+<rect x="128" y="132" width="18" height="12" fill="#d62728"/>
+<text x="152" y="144" font-size="12">稳态总功率</text>
+<text x="423.0" y="30" font-size="16" font-weight="bold" text-anchor="middle">加热功率平衡 — Q=157.5 mm³/s, Φ16 黄铜管 L=95 mm</text>
+</svg>

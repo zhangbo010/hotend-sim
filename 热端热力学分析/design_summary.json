@@ -1,0 +1,41 @@
+{
+  "Q_target_mm3s": 157.5,
+  "filament_mm": 2.85,
+  "feed_speed_mm_s": 24.688855438077947,
+  "PETG": {
+    "T_ext": 250.0,
+    "Tg": 81.0,
+    "density": 1270.0,
+    "Cp": 1200.0,
+    "k": 0.29,
+    "L_need_mm_for_157": 57.5,
+    "Qmax_L95": 259.9,
+    "v_max_L95": 289.0,
+    "Qmax_L100": 273.6,
+    "P_melt_W": 54.0,
+    "P_total_W": 84.4,
+    "dP_nozzle_MPa": 0.27,
+    "dP_meltzone_film_MPa": 1.2,
+    "dP_meltzone_full_MPa": 2.94,
+    "extruder_force_N": 9.0,
+    "extruder_force_upper_N": 20.0
+  },
+  "ABS": {
+    "T_ext": 235.0,
+    "Tg": 105.0,
+    "density": 1040.0,
+    "Cp": 1500.0,
+    "k": 0.18,
+    "L_need_mm_for_157": 114.0,
+    "Qmax_L95": 130.8,
+    "v_max_L95": 145.0,
+    "Qmax_L100": 137.7,
+    "P_melt_W": 51.6,
+    "P_total_W": 79.3,
+    "dP_nozzle_MPa": 0.63,
+    "dP_meltzone_film_MPa": 3.05,
+    "dP_meltzone_full_MPa": 9.53,
+    "extruder_force_N": 23.0,
+    "extruder_force_upper_N": 65.0
+  }
+}

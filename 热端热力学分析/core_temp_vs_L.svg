@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="560" viewBox="0 0 820 560" font-family="Helvetica, Arial, sans-serif">
+
+<line x1="78" y1="474" x2="768" y2="474" stroke="#666" stroke-width="1"/>
+<line x1="78" y1="474" x2="78" y2="44" stroke="#666" stroke-width="1"/>
+<line x1="193.0" y1="474" x2="193.0" y2="478" stroke="#666"/>
+<text x="193.0" y="492" font-size="12" text-anchor="middle">20</text>
+<line x1="308.0" y1="474" x2="308.0" y2="478" stroke="#666"/>
+<text x="308.0" y="492" font-size="12" text-anchor="middle">40</text>
+<line x1="423.0" y1="474" x2="423.0" y2="478" stroke="#666"/>
+<text x="423.0" y="492" font-size="12" text-anchor="middle">60</text>
+<line x1="538.0" y1="474" x2="538.0" y2="478" stroke="#666"/>
+<text x="538.0" y="492" font-size="12" text-anchor="middle">80</text>
+<line x1="653.0" y1="474" x2="653.0" y2="478" stroke="#666"/>
+<text x="653.0" y="492" font-size="12" text-anchor="middle">100</text>
+<line x1="768.0" y1="474" x2="768.0" y2="478" stroke="#666"/>
+<text x="768.0" y="492" font-size="12" text-anchor="middle">120</text>
+<line x1="74" y1="474.0" x2="78" y2="474.0" stroke="#666"/>
+<text x="70" y="478.0" font-size="12" text-anchor="end">0</text>
+<line x1="74" y1="402.3" x2="78" y2="402.3" stroke="#666"/>
+<text x="70" y="406.3" font-size="12" text-anchor="end">50</text>
+<line x1="74" y1="330.7" x2="78" y2="330.7" stroke="#666"/>
+<text x="70" y="334.7" font-size="12" text-anchor="end">100</text>
+<line x1="74" y1="259.0" x2="78" y2="259.0" stroke="#666"/>
+<text x="70" y="263.0" font-size="12" text-anchor="end">150</text>
+<line x1="74" y1="187.3" x2="78" y2="187.3" stroke="#666"/>
+<text x="70" y="191.3" font-size="12" text-anchor="end">200</text>
+<line x1="74" y1="115.7" x2="78" y2="115.7" stroke="#666"/>
+<text x="70" y="119.7" font-size="12" text-anchor="end">250</text>
+<line x1="74" y1="44.0" x2="78" y2="44.0" stroke="#666"/>
+<text x="70" y="48.0" font-size="12" text-anchor="end">300</text>
+<text x="423.0" y="512" font-size="13" text-anchor="middle">熔化区长度 L (mm)</text>
+<text x="68" y="259.0" font-size="13" text-anchor="middle" transform="rotate(-90 68 259.0)">出口芯部温度 (°C)</text>
+<polyline points="193.0,425.1 207.4,419.0 221.8,412.0 236.1,404.2 250.5,395.9 264.9,387.1 279.2,378.2 293.6,369.2 308.0,360.1 322.4,351.1 336.8,342.2 351.1,333.6 365.5,325.1 379.9,316.8 394.2,308.8 408.6,301.0 423.0,293.5 437.4,286.2 451.8,279.2 466.1,272.5 480.5,266.0 494.9,259.8 509.2,253.8 523.6,248.1 538.0,242.6 552.4,237.3 566.8,232.2 581.1,227.4 595.5,222.7 609.9,218.2 624.2,213.9 638.6,209.8 653.0,205.9 667.4,202.1 681.8,198.5 696.1,195.0 710.5,191.7 724.9,188.5 739.2,185.5 753.6,182.5 768.0,179.7" fill="none" stroke="#1f77b4" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="193.0,436.4 207.4,435.1 221.8,433.2 236.1,430.8 250.5,427.9 264.9,424.5 279.2,420.7 293.6,416.4 308.0,411.9 322.4,407.0 336.8,401.9 351.1,396.7 365.5,391.3 379.9,385.8 394.2,380.2 408.6,374.6 423.0,369.0 437.4,363.4 451.8,357.8 466.1,352.3 480.5,346.9 494.9,341.5 509.2,336.2 523.6,331.0 538.0,325.9 552.4,320.8 566.8,315.9 581.1,311.1 595.5,306.4 609.9,301.8 624.2,297.3 638.6,293.0 653.0,288.7 667.4,284.5 681.8,280.5 696.1,276.5 710.5,272.6 724.9,268.9 739.2,265.2 753.6,261.7 768.0,258.2" fill="none" stroke="#ff7f0e" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="78" y1="300.6" x2="768" y2="300.6" stroke="#1f77b4" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="760.0" y="294.6" font-size="12" fill="#1f77b4" text-anchor="end">PETG 判据 Tg+40=121°C</text>
+<line x1="78" y1="266.2" x2="768" y2="266.2" stroke="#ff7f0e" stroke-width="1.5" stroke-dasharray="2,3"/>
+<text x="760.0" y="260.2" font-size="12" fill="#ff7f0e" text-anchor="end">ABS 判据 Tg+40=145°C</text>
+<line x1="98" y1="64" x2="122" y2="64" stroke="#1f77b4" stroke-width="3"/>
+<text x="128" y="68" font-size="13">PETG @250°C</text>
+<line x1="98" y1="84" x2="122" y2="84" stroke="#ff7f0e" stroke-width="3"/>
+<text x="128" y="88" font-size="13">ABS @235°C</text>
+<text x="423.0" y="30" font-size="16" font-weight="bold" text-anchor="middle">Q=157.5 mm³/s, 熔腔孔径 3.2 mm — 熔化区出口芯部温度</text>
+</svg>

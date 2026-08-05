@@ -1,0 +1,2048 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Hotend Sim</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Hotend Sim" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Hotend Sim&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --red: light-dark(rgb(186 38 35), rgb(250 66 62));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;hotend-sim3d&quot;&gt;
+  &lt;div id=&quot;hs3-toolbar&quot; role=&quot;toolbar&quot; aria-label=&quot;模拟控制&quot;&gt;
+    &lt;span class=&quot;hs3-tb-title&quot;&gt;热端热力学模拟&lt;/span&gt;
+    &lt;span class=&quot;hs3-tb-status&quot; id=&quot;hs3-tb-status&quot;&gt;ABS · 动画运行中&lt;/span&gt;
+    &lt;button type=&quot;button&quot; id=&quot;hs3-tb-toggle&quot; class=&quot;btn&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;hs3-params&quot;&gt;展开参数&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;hs3-params&quot;&gt;
+  &lt;div class=&quot;viz-controls&quot;&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-mat&quot;&gt;材料&lt;/label&gt;
+      &lt;select id=&quot;hs3-mat&quot; class=&quot;form-select&quot;&gt;
+        &lt;option value=&quot;ABS&quot; selected&gt;ABS&lt;/option&gt;
+        &lt;option value=&quot;PETG&quot;&gt;PETG&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-q&quot;&gt;流量 &lt;span id=&quot;hs3-q-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-q&quot; class=&quot;form-range&quot; min=&quot;30&quot; max=&quot;250&quot; step=&quot;2.5&quot; value=&quot;150&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-tw&quot;&gt;喷嘴温度 &lt;span id=&quot;hs3-tw-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-tw&quot; class=&quot;form-range&quot; min=&quot;225&quot; max=&quot;260&quot; step=&quot;1&quot; value=&quot;235&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-rpm&quot;&gt;风扇转速 &lt;span id=&quot;hs3-rpm-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-rpm&quot; class=&quot;form-range&quot; min=&quot;0&quot; max=&quot;24000&quot; step=&quot;500&quot; value=&quot;24000&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-db&quot;&gt;容腔直径 &lt;span id=&quot;hs3-db-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-db&quot; class=&quot;form-range&quot; min=&quot;2.8&quot; max=&quot;4&quot; step=&quot;0.05&quot; value=&quot;3.2&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-dfil&quot;&gt;耗材直径 &lt;span id=&quot;hs3-dfil-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-dfil&quot; class=&quot;form-range&quot; min=&quot;1.75&quot; max=&quot;3&quot; step=&quot;0.05&quot; value=&quot;2.85&quot;&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;padding-bottom:2px&quot;&gt;
+      &lt;button id=&quot;hs3-anim&quot; class=&quot;btn&quot; type=&quot;button&quot;&gt;暂停动画&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;viz-controls&quot;&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-seg1&quot;&gt;溶腔段1内径 &lt;span id=&quot;hs3-seg1-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-seg1&quot; class=&quot;form-range&quot; min=&quot;2.6&quot; max=&quot;4.5&quot; step=&quot;0.1&quot; value=&quot;3.2&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-seg2&quot;&gt;溶腔段2内径 &lt;span id=&quot;hs3-seg2-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-seg2&quot; class=&quot;form-range&quot; min=&quot;2.6&quot; max=&quot;4.5&quot; step=&quot;0.1&quot; value=&quot;3.2&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-seg3&quot;&gt;溶腔段3内径 &lt;span id=&quot;hs3-seg3-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-seg3&quot; class=&quot;form-range&quot; min=&quot;2.6&quot; max=&quot;4.5&quot; step=&quot;0.1&quot; value=&quot;3.2&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-b1&quot;&gt;段界1 &lt;span id=&quot;hs3-b1-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-b1&quot; class=&quot;form-range&quot; min=&quot;5&quot; max=&quot;50&quot; step=&quot;1&quot; value=&quot;20&quot;&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-b2&quot;&gt;段界2 &lt;span id=&quot;hs3-b2-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-b2&quot; class=&quot;form-range&quot; min=&quot;15&quot; max=&quot;55&quot; step=&quot;1&quot; value=&quot;40&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  (function () {
+    var params = document.getElementById(&quot;hs3-params&quot;);
+    var btn = document.getElementById(&quot;hs3-tb-toggle&quot;);
+    if (!params || !btn) return;
+    var mq = window.matchMedia &amp;&amp; window.matchMedia(&quot;(max-width: 430px)&quot;);
+    function setOpen(open) {
+      params.classList.toggle(&quot;hs3-open&quot;, open);
+      btn.setAttribute(&quot;aria-expanded&quot;, open ? &quot;true&quot; : &quot;false&quot;);
+      btn.textContent = open ? &quot;收起参数&quot; : &quot;展开参数&quot;;
+    }
+    function onMq() { setOpen(!(mq &amp;&amp; mq.matches)); }
+    btn.addEventListener(&quot;click&quot;, function () { setOpen(!params.classList.contains(&quot;hs3-open&quot;)); });
+    onMq();
+    if (mq) {
+      if (typeof mq.addEventListener === &quot;function&quot;) { mq.addEventListener(&quot;change&quot;, onMq); }
+      else if (typeof mq.addListener === &quot;function&quot;) { mq.addListener(onMq); }
+    }
+  })();
+  &lt;/script&gt;
+
+  &lt;div class=&quot;viz-row&quot; style=&quot;align-items:flex-start;gap:12px&quot;&gt;
+    &lt;div style=&quot;flex:1.5;min-width:270px&quot;&gt;
+      &lt;div class=&quot;text-muted text-small&quot; style=&quot;margin-bottom:4px&quot;&gt;拖动旋转 · 滚轮缩放 · 黄色小球=拖拽溶腔段界 · 黄色横条=进料流动 · 青色线=熔融前沿（芯部≥Tg）&lt;/div&gt;
+      &lt;div id=&quot;hs3-canvas&quot; style=&quot;position:relative;height:440px;border-radius:8px;overflow:hidden&quot;&gt;
+        &lt;div id=&quot;hs3-cbar-wrap&quot; style=&quot;position:absolute;top:12px;right:12px;bottom:30px;width:72px;pointer-events:none;z-index:2;display:flex;align-items:stretch&quot;&gt;
+          &lt;div style=&quot;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;line-height:1.1;color:var(--muted-foreground);padding-right:6px;text-align:right&quot;&gt;
+            &lt;span id=&quot;hs3-cbar-top&quot;&gt;235°C&lt;/span&gt;
+            &lt;span id=&quot;hs3-cbar-mid&quot;&gt;130°C&lt;/span&gt;
+            &lt;span id=&quot;hs3-cbar-bot&quot;&gt;25°C&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div id=&quot;hs3-cbar&quot; style=&quot;width:14px;border:1px solid rgba(255,255,255,.35);border-radius:2px&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;viz-grid&quot; style=&quot;flex:1;min-width:220px;align-self:start&quot;&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;div class=&quot;text-muted text-small&quot;&gt;出口芯部温度&lt;/div&gt;
+        &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-core&quot;&gt;—&lt;/div&gt;
+        &lt;div id=&quot;hs3-core-ctx&quot; class=&quot;text-muted text-small&quot;&gt;—&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;div class=&quot;text-muted text-small&quot;&gt;最大流量 Qmax&lt;/div&gt;
+        &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-qmax&quot;&gt;—&lt;/div&gt;
+        &lt;div id=&quot;hs3-qmax-ctx&quot; class=&quot;text-muted text-small&quot;&gt;—&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;div class=&quot;text-muted text-small&quot;&gt;溶腔导热&lt;/div&gt;
+        &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-qhb&quot;&gt;—&lt;/div&gt;
+        &lt;div class=&quot;text-muted text-small&quot; id=&quot;hs3-hb-ctx&quot;&gt;冷端 / 进料（FEA 反馈）&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;div class=&quot;text-muted text-small&quot;&gt;挤出压力 ΔP&lt;/div&gt;
+        &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-dp&quot;&gt;—&lt;/div&gt;
+        &lt;div id=&quot;hs3-dp-ctx&quot; class=&quot;text-muted text-small&quot;&gt;—&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;style&gt;
+    #hotend-sim3d { width:100%; }
+    #hotend-sim3d .viz-controls { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:flex-end; margin-bottom:8px; }
+    #hotend-sim3d .viz-controls &gt; div { min-width:140px; }
+    #hs3-toolbar { display: none; }
+    #hs3-params { display: contents; }
+    #hotend-sim3d canvas { display:block; touch-action:none; }
+    #hotend-sim3d .hs3-err { padding:16px; border:1px solid var(--border); border-radius:8px; color:var(--foreground); }
+
+    @media (max-width: 430px) {
+      #hs3-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-sizing: border-box;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        border: 1px solid var(--input);
+        border-radius: var(--radius-lg);
+        color: var(--popover-foreground);
+        background: var(--popover);
+        box-shadow: var(--shadow-sm);
+      }
+      #hs3-toolbar .hs3-tb-title {
+        font-size: 16px;
+        font-weight: var(--font-weight-medium, 500);
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+      #hs3-toolbar .hs3-tb-status {
+        flex: 1;
+        min-width: 0;
+        font-size: 14px;
+        line-height: 1.2;
+        color: var(--muted-foreground);
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      #hs3-toolbar #hs3-tb-toggle {
+        flex: 0 0 auto;
+        min-width: 88px;
+        min-height: 44px;
+        padding: 0 10px;
+      }
+      #hs3-params { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+      #hs3-params:not(.hs3-open) { display: none; }
+      #hotend-sim3d .viz-controls { flex-direction: column; align-items: stretch; width: 100%; }
+      #hotend-sim3d .viz-controls &gt; div { width: 100%; min-width: 0; }
+      #hotend-sim3d .viz-controls &gt; .form-label { min-width: 0; flex-basis: auto; }
+      #hotend-sim3d .viz-row { flex-direction: column; align-items: stretch; }
+      #hotend-sim3d .viz-row &gt; div { width: 100% !important; min-width: 0 !important; align-self: stretch; }
+      #hotend-sim3d .viz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #hotend-sim3d #hs3-canvas { height: min(72vw, 460px) !important; }
+      #hotend-sim3d .btn,
+      #hotend-sim3d .form-control,
+      #hotend-sim3d .form-select,
+      #hotend-sim3d .form-label,
+      #hotend-sim3d .form-range { font-size: 16px; }
+      #hotend-sim3d .btn { min-width: 44px; min-height: 44px; }
+      #hotend-sim3d .form-control,
+      #hotend-sim3d .form-select { min-height: 44px; }
+      #hotend-sim3d .form-range { height: 44px; background-size: 100% 4px; }
+      #hotend-sim3d .form-range::-webkit-slider-runnable-track { height: 44px; }
+      #hotend-sim3d .form-range::-webkit-slider-thumb { width: 28px; height: 28px; margin-top: 8px; }
+      #hotend-sim3d .form-range::-moz-range-track { height: 44px; }
+      #hotend-sim3d .form-range::-moz-range-thumb { width: 28px; height: 28px; border-radius: var(--radius-full); }
+      #hotend-sim3d :is(button, select, input, label) { touch-action: manipulation; }
+    }
+  &lt;/style&gt;
+
+  &lt;script src=&quot;https://unpkg.com/three@0.128.0/build/three.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/three@0.128.0/examples/js/environments/RoomEnvironment.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+  (function () {
+    var holder = document.getElementById(&quot;hs3-canvas&quot;);
+    function fail(msg) {
+      holder.innerHTML = &#x27;&lt;div class=&quot;hs3-err&quot;&gt;3D 预览不可用：&#x27; + msg + &#x27;&lt;/div&gt;&#x27;;
+    }
+    try {
+      if (typeof THREE === &quot;undefined&quot;) { fail(&quot;Three.js 加载失败&quot;); return; }
+
+      var el = function (id) { return document.getElementById(id); };
+      var reduce = window.matchMedia &amp;&amp; window.matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches;
+      var MAT = {
+        PETG: { rho: 1270, Cp: 1200, k: 0.29, Tg: 81,  Tmin: 240, Tmax: 260, Tdef: 250, Qdef: 157.5,
+                Kref: 2186, n: 0.60, Tref: 250, Ea: 70000 },
+        ABS:  { rho: 1040, Cp: 1500, k: 0.18, Tg: 105, Tmin: 225, Tmax: 260, Tdef: 235, Qdef: 150,
+                Kref: 12694, n: 0.405, Tref: 230, Ea: 60000 }
+      };
+      var R_POL = 1.425, BRASS_MM = 95, HB_MM = 60, PREHEAT_MM = 88;
+      var state = { mat: &quot;ABS&quot;, Q: 150, Tw: 235, Db: 3.2, Dfil: 2.85, rpm: 24000 };
+      state.seg = [3.2, 3.2, 3.2];     // 溶腔 3 段内径（外径固定 Φ6）
+      state.segB = [20, 40];            // 段界位置（距溶腔底部 mm，0..60）
+      state.anim = !reduce;
+      function filR() { return state.Dfil / 2; }
+
+      function hEff(Db) {
+        var gap = (Db - state.Dfil) / 2 * 1e-3;
+        return 0.20 / (0.7 * gap);
+      }
+      // FEA 反馈模型（热端 FEA 扫描锚点插值）
+      var FEA_H = [10, 25, 50, 100, 250];
+      var FEA_TC = [57.7, 39.2, 32.1, 28.4, 26.1];
+      var FEA_QH = [11.5, 12.8, 13.2, 13.5, 13.7];
+      function interp(xs, ys, x) {
+        if (x &lt;= xs[0]) return ys[0];
+        for (var i = 0; i &lt; xs.length - 1; i++) if (x &lt;= xs[i+1]) {
+          var t = (x - xs[i]) / (xs[i+1] - xs[i]);
+          return ys[i] + t * (ys[i+1] - ys[i]);
+        }
+        return ys[ys.length-1];
+      }
+      function hFromRPM(rpm) { return 10 + 240 * Math.pow(rpm / 24000, 0.8); }
+      function wallRatioSeg() {
+        var A = 0;
+        var bounds = [0, state.segB[0], state.segB[1], 60];
+        for (var si = 0; si &lt; 3; si++) A += Math.PI / 4 * (36 - state.seg[si] * state.seg[si]);
+        return A / 3 / 20.2;
+      }
+      function KAt(m, T) {
+        return m.Kref * Math.exp(m.Ea / 8.314 * (1 / (m.Tref + 273.15) - 1 / (T + 273.15)));
+      }
+      function pressureBudget(m, Q, Tw, Db) {
+        var K = KAt(m, Tw), n = m.n, Qm = Q * 1e-9;
+        var rb = Db / 2 * 1e-3, outR = 0.75e-3;
+        var dp = 0, z, dz = 0.01e-3;
+        for (z = 0; z &lt;= 2e-3 + 1e-12; z += dz) {
+          var r = rb + (outR - rb) * Math.min(z / 2e-3, 1);
+          var g = (3*n+1)/(4*n) * 4*Qm/(Math.PI*r*r*r);
+          dp += 2 * K * Math.pow(g, n) / r * dz;
+        }
+        var gl = (3*n+1)/(4*n) * 4*Qm/(Math.PI*outR*outR*outR);
+        dp += 2 * K * Math.pow(gl, n) * 0.3e-3 / outR;
+        var Rf = state.Dfil / 2 * 1e-3;
+        var gap = (Db - state.Dfil) / 2 * 1e-3;
+        var uf = Qm / (Math.PI * Rf * Rf);
+        var gf = uf / gap;
+        dp += 2 * K * Math.pow(gf, n) * 0.020 / Rf;
+        var F = dp * Math.PI / 4 * (state.Dfil * 1e-3) * (state.Dfil * 1e-3);
+        return { MPa: dp / 1e6, N: F };
+      }
+
+      function tempColor(T, Tmin, Tmax) {
+        var t = Math.min(Math.max((T - Tmin) / (Tmax - Tmin), 0), 1);
+        if (t &lt; 0.25) { var v = t / 0.25; return [Math.round(30+80*v), Math.round(80+160*v), 220]; }
+        if (t &lt; 0.5)  { var v = (t-0.25)/0.25; return [Math.round(110+60*v), Math.round(240-40*v), Math.round(220-140*v)]; }
+        if (t &lt; 0.75) { var v = (t-0.5)/0.25; return [Math.round(170+85*v), Math.round(200-120*v), 60]; }
+        var w = (t-0.75)/0.25; return [255, Math.round(80-60*w), Math.round(60-50*w)];
+      }
+      function rgbCss(c) { return &quot;rgb(&quot; + c[0] + &quot;,&quot; + c[1] + &quot;,&quot; + c[2] + &quot;)&quot;; }
+
+      function thomas(sub, main, sup, rhs) {
+        var n = rhs.length, cp = new Array(n), dp = new Array(n), x = new Array(n);
+        cp[0] = sup[0] / main[0]; dp[0] = rhs[0] / main[0];
+        for (var i = 1; i &lt; n; i++) {
+          var m = main[i] - sub[i] * cp[i-1];
+          cp[i] = sup[i] / m; dp[i] = (rhs[i] - sub[i] * dp[i-1]) / m;
+        }
+        x[n-1] = dp[n-1];
+        for (var i = n-2; i &gt;= 0; i--) x[i] = dp[i] - cp[i] * x[i+1];
+        return x;
+      }
+
+      function solveField(m, Q, Tw, T0) {
+        var alpha = m.k / (m.rho * m.Cp) * 1e6;
+        var R = filR();
+        var u = Q / (Math.PI * R * R);
+        var nr = 26, dz = 1, dr = R / (nr - 1), a = alpha / u;
+        var hk = hEff(state.Db) / (1000 * m.k);
+        var T = new Array(nr), field = [], z = 0;
+        for (var j = 0; j &lt; nr; j++) T[j] = T0;
+        field.push(T.slice());
+        while (z &lt; BRASS_MM - 1e-9) {
+          var sub = new Array(nr), main = new Array(nr), sup = new Array(nr), rhs = new Array(nr);
+          main[0] = 1 + 4*a*dz/(dr*dr); sup[0] = -4*a*dz/(dr*dr); rhs[0] = T[0];
+          for (var i = 1; i &lt; nr-1; i++) {
+            var ri = i*dr;
+            sub[i] = -a*dz*(1/(dr*dr) - 1/(2*ri*dr));
+            main[i] = 1 + 2*a*dz/(dr*dr);
+            sup[i] = -a*dz*(1/(dr*dr) + 1/(2*ri*dr));
+            rhs[i] = T[i];
+          }
+          var i2 = nr-1, ri2 = i2*dr;
+          main[i2] = 1 + 2*a*dz/(dr*dr) + a*dz*hk*(2/dr + 1/ri2);
+          sub[i2] = -2*a*dz/(dr*dr);
+          rhs[i2] = T[i2] + a*dz*hk*Tw*(2/dr + 1/ri2);
+          T = thomas(sub, main, sup, rhs);
+          field.push(T.slice());
+          z += dz;
+        }
+        return field;
+      }
+
+      function coreExit(m, Q, Tw, T0) {
+        var f = solveField(m, Q, Tw, T0);
+        return f[f.length-1][0];
+      }
+      function qmax(m, Tw, T0) {
+        var crit = m.Tg + 40, lo = 2, hi = 1200;
+        for (var k = 0; k &lt; 40; k++) {
+          var Qm = 0.5*(lo+hi);
+          if (coreExit(m, Qm, Tw, T0) &gt;= crit) lo = Qm; else hi = Qm;
+        }
+        return 0.5*(lo+hi);
+      }
+
+      function fieldT(field, y, r) {
+        var nz = field.length, nr = field[0].length;
+        var zi = Math.min(Math.max(BRASS_MM - y, 0), BRASS_MM - 1e-6);
+        var i0 = Math.floor(zi), i1 = Math.min(i0 + 1, nz - 1), fi = zi - i0;
+        var rj = Math.min(Math.max(r / filR() * (nr - 1), 0), nr - 1.0001);
+        var j0 = Math.floor(rj), j1 = Math.min(j0 + 1, nr - 1), fj = rj - j0;
+        var aa = field[i0][j0] * (1-fj) + field[i0][j1] * fj;
+        var bb = field[i1][j0] * (1-fj) + field[i1][j1] * fj;
+        return aa * (1-fi) + bb * fi;
+      }
+
+      function halfCylSurface(r, h, segA, segH) {
+        var pos = [], idx = [];
+        for (var j = 0; j &lt;= segH; j++) {
+          var y = h * j / segH;
+          for (var i = 0; i &lt;= segA; i++) {
+            var a = Math.PI * i / segA;
+            pos.push(r*Math.cos(a), y, -r*Math.sin(a));
+          }
+        }
+        for (var j = 0; j &lt; segH; j++) for (var i = 0; i &lt; segA; i++) {
+          var a2 = j*(segA+1)+i, b = a2+1, c = a2+segA+1, d = c+1;
+          idx.push(a2, b, c, b, d, c);
+        }
+        var g = new THREE.BufferGeometry();
+        g.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(pos, 3));
+        g.setIndex(idx); g.computeVertexNormals();
+        return g;
+      }
+      function rectFace(x0, x1, y0, y1, z) {
+        var pos = [x0,y0,z, x1,y0,z, x0,y1,z, x1,y1,z];
+        var idx = [0,2,1, 1,2,3];
+        var g = new THREE.BufferGeometry();
+        g.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(pos, 3));
+        g.setIndex(idx); g.computeVertexNormals();
+        return g;
+      }
+      function halfConeSurface(rTop, rBot, h, segA, segH) {
+        var pos = [], idx = [];
+        for (var j = 0; j &lt;= segH; j++) {
+          var y = -h * j / segH, r = rTop + (rBot - rTop) * j / segH;
+          for (var i = 0; i &lt;= segA; i++) {
+            var a = Math.PI * i / segA;
+            pos.push(r*Math.cos(a), y, -r*Math.sin(a));
+          }
+        }
+        for (var j = 0; j &lt; segH; j++) for (var i = 0; i &lt; segA; i++) {
+          var a2 = j*(segA+1)+i, b = a2+1, c = a2+segA+1, d = c+1;
+          idx.push(a2, b, c, b, d, c);
+        }
+        var g = new THREE.BufferGeometry();
+        g.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(pos, 3));
+        g.setIndex(idx); g.computeVertexNormals();
+        return g;
+      }
+
+      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      holder.appendChild(renderer.domElement);
+      renderer.domElement.setAttribute(&quot;role&quot;, &quot;img&quot;);
+      renderer.domElement.setAttribute(&quot;aria-label&quot;, &quot;热端半剖 3D 模型：4028 风扇、Φ35×60 圆柱散热片、硅脂层、黄铜溶腔 Φ6/Φ3.2、分段带式加热圈、黄铜熔腔、锥度喷嘴与耗材温度场&quot;);
+
+      var scene = new THREE.Scene();
+      // 环境背景：竖向渐变
+      var bgc = document.createElement(&quot;canvas&quot;);
+      bgc.width = 4; bgc.height = 512;
+      var bgx = bgc.getContext(&quot;2d&quot;);
+      var bgg = bgx.createLinearGradient(0, 0, 0, 512);
+      bgg.addColorStop(0, &quot;#33405a&quot;);
+      bgg.addColorStop(0.5, &quot;#1a2230&quot;);
+      bgg.addColorStop(1, &quot;#0c1016&quot;);
+      bgx.fillStyle = bgg; bgx.fillRect(0, 0, 4, 512);
+      scene.background = new THREE.CanvasTexture(bgc);
+      // 环境反射（金属质感）
+      if (THREE.RoomEnvironment &amp;&amp; renderer.extensions.get(&quot;EXT_color_buffer_float&quot;)) {
+        var pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+      }
+      var camera = new THREE.PerspectiveCamera(45, 1, 0.5, 1200);
+      camera.position.set(30, 140, 280);
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 92, 0);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x888888, 0.75));
+      var dir = new THREE.DirectionalLight(0xffffff, 1.0);
+      dir.position.set(70, 150, 90);
+      dir.castShadow = true;
+      dir.shadow.mapSize.set(1024, 1024);
+      dir.shadow.camera.left = -60; dir.shadow.camera.right = 60;
+      dir.shadow.camera.top = 60; dir.shadow.camera.bottom = -60;
+      dir.shadow.camera.near = 10; dir.shadow.camera.far = 400;
+      scene.add(dir);
+
+      var brassMat = new THREE.MeshStandardMaterial({ color: 0xd0a13c, roughness: 0.35, metalness: 0.75, side: THREE.DoubleSide });
+      var steelMat = new THREE.MeshStandardMaterial({ color: 0x8e99a3, roughness: 0.45, metalness: 0.6, side: THREE.DoubleSide });
+      var hsMat = new THREE.MeshStandardMaterial({ color: 0xa7adb3, roughness: 0.55, metalness: 0.5, side: THREE.DoubleSide });
+      // 温度场用不光照材质：颜色纯净、梯度醒目
+      var polMat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
+      var filMat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
+      var hotMat = new THREE.MeshStandardMaterial({ roughness: 0.35, metalness: 0.2, side: THREE.DoubleSide });
+      var barMat = new THREE.MeshStandardMaterial({ color: 0xffe066, emissive: 0xffaa00, emissiveIntensity: 0.55, transparent: true, opacity: 0.95 });
+      var frontMat = new THREE.MeshBasicMaterial({ color: 0x33e0ff, transparent: true, opacity: 0.95 });
+
+      // 铝散热片：中心柱 Φ10 + 盘状翅片 Φ35 × 60mm（背半剖）
+      var greaseMat = new THREE.MeshStandardMaterial({ color: 0x3f454c, roughness: 0.65, metalness: 0.15, side: THREE.DoubleSide });
+      var HS_R = 17.5;
+      var hsCoreOut = halfCylSurface(5.0, 60, 48, 8); hsCoreOut.translate(0, 95, 0);
+      var hsCoreIn = halfCylSurface(3.05, 60, 48, 8); hsCoreIn.translate(0, 95, 0);
+      scene.add(new THREE.Mesh(hsCoreOut, hsMat));
+      scene.add(new THREE.Mesh(hsCoreIn, hsMat));
+      scene.add(new THREE.Mesh(rectFace(-5.0, -3.05, 95, 155, 0), hsMat));
+      scene.add(new THREE.Mesh(rectFace(3.05, 5.0, 95, 155, 0), hsMat));
+      for (var i = 0; i &lt; 15; i++) {
+        var fy = 96.5 + i * 3.9, fh = 1.3;
+        var finOut = halfCylSurface(HS_R, fh, 48, 2); finOut.translate(0, fy, 0);
+        var finIn = halfCylSurface(5.0, fh, 48, 2); finIn.translate(0, fy, 0);
+        scene.add(new THREE.Mesh(finOut, hsMat));
+        scene.add(new THREE.Mesh(finIn, hsMat));
+        scene.add(new THREE.Mesh(rectFace(-HS_R, -5.0, fy, fy + fh, 0), hsMat));
+        scene.add(new THREE.Mesh(rectFace(5.0, HS_R, fy, fy + fh, 0), hsMat));
+      }
+      // 硅脂层：Φ6 → Φ6.1，单边 0.05mm，全长嵌入
+      var grOut = halfCylSurface(3.05, 60, 40, 6); grOut.translate(0, 95, 0);
+      var grIn = halfCylSurface(3.0, 60, 40, 6); grIn.translate(0, 95, 0);
+      scene.add(new THREE.Mesh(grOut, greaseMat));
+      scene.add(new THREE.Mesh(grIn, greaseMat));
+      scene.add(new THREE.Mesh(rectFace(-3.05, -3.0, 95, 155, 0), greaseMat));
+      scene.add(new THREE.Mesh(rectFace(3.0, 3.05, 95, 155, 0), greaseMat));
+      // 黄铜溶腔：3 段可变内径（外径 Φ6 固定），段界可拖拽
+      var throatMeshes = [];
+      function rebuildThroat() {
+        throatMeshes.forEach(function (m) { scene.remove(m); m.geometry.dispose(); });
+        throatMeshes = [];
+        var bounds = [0, state.segB[0], state.segB[1], 60];
+        for (var si = 0; si &lt; 3; si++) {
+          var ya = 95 + bounds[si], len = bounds[si+1] - bounds[si];
+          var ir = state.seg[si] / 2;
+          var o = halfCylSurface(3.0, len, 40, 4); o.translate(0, ya, 0);
+          var inn = halfCylSurface(ir, len, 40, 4); inn.translate(0, ya, 0);
+          var m1 = new THREE.Mesh(o, steelMat), m2 = new THREE.Mesh(inn, steelMat);
+          var m3 = new THREE.Mesh(rectFace(-3.0, -ir, ya, ya + len, 0), steelMat);
+          var m4 = new THREE.Mesh(rectFace(ir, 3.0, ya, ya + len, 0), steelMat);
+          scene.add(m1); scene.add(m2); scene.add(m3); scene.add(m4);
+          throatMeshes.push(m1, m2, m3, m4);
+        }
+      }
+      rebuildThroat();
+      // 段界拖拽手柄（黄色小球，在 3D 画布上直接拖动）
+      var handleMat = new THREE.MeshBasicMaterial({ color: 0xffe066, transparent: true, opacity: 0.95, depthTest: false });
+      var handles = [];
+      for (var hi = 0; hi &lt; 2; hi++) {
+        var hnd = new THREE.Mesh(new THREE.SphereGeometry(0.95, 12, 10), handleMat);
+        hnd.position.set(0, 95 + state.segB[hi], 4);
+        hnd.userData.b = hi;
+        scene.add(hnd);
+        handles.push(hnd);
+      }
+      function updateHandles() {
+        for (var hi = 0; hi &lt; 2; hi++) handles[hi].position.y = 95 + state.segB[hi];
+      }
+      var raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2(), dragging = null;
+      var hPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -4);
+      function setMouse(e) {
+        var rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      }
+      renderer.domElement.addEventListener(&quot;pointerdown&quot;, function (e) {
+        setMouse(e);
+        raycaster.setFromCamera(mouse, camera);
+        var hits = raycaster.intersectObjects(handles);
+        if (hits.length) {
+          dragging = hits[0].object.userData.b;
+          controls.enabled = false;
+          e.stopPropagation();
+        }
+      }, true);
+      renderer.domElement.addEventListener(&quot;pointermove&quot;, function (e) {
+        if (dragging === null) return;
+        setMouse(e);
+        raycaster.setFromCamera(mouse, camera);
+        var pt = new THREE.Vector3();
+        if (raycaster.ray.intersectPlane(hPlane, pt)) {
+          var y = Math.max(5, Math.min(55, pt.y - 95));
+          if (dragging === 0) y = Math.min(y, state.segB[1] - 10);
+          else y = Math.max(y, state.segB[0] + 10);
+          state.segB[dragging] = Math.round(y);
+          el(&quot;hs3-b1&quot;).value = state.segB[0];
+          el(&quot;hs3-b2&quot;).value = state.segB[1];
+          updateHandles();
+          rebuildThroat();
+          syncControls(); render();
+        }
+      }, true);
+      window.addEventListener(&quot;pointerup&quot;, function () {
+        if (dragging !== null) { dragging = null; controls.enabled = true; }
+      });
+      window.addEventListener(&quot;pointercancel&quot;, function () {
+        if (dragging !== null) { dragging = null; controls.enabled = true; }
+      });
+      // 4028 风扇 @24000rpm：侧装，沿直径方向（径向）吹过翅片，背半剖
+      var fanMat = new THREE.MeshStandardMaterial({ color: 0x5c6771, roughness: 0.5, metalness: 0.4, side: THREE.DoubleSide });
+      var fHousing = new THREE.Mesh(new THREE.BoxGeometry(30, 42, 20), fanMat);
+      fHousing.position.set(-33, 125, -10);
+      scene.add(fHousing);
+      var fHub = new THREE.Mesh(new THREE.BoxGeometry(30, 9, 9), fanMat);
+      fHub.position.set(-33, 125, -4.5);
+      scene.add(fHub);
+      for (var bi = 0; bi &lt; 6; bi++) {
+        var ang = Math.PI + bi * Math.PI / 5;   // π..2π → 背面（z≤0）
+        var blade = new THREE.Mesh(new THREE.BoxGeometry(2, 13, 2.4), fanMat);
+        blade.position.set(-33, 125 + 8 * Math.cos(ang), 8 * Math.sin(ang));
+        blade.rotation.x = ang - Math.PI / 2;
+        scene.add(blade);
+      }
+      // 径向气流箭头（沿直径方向吹过翅片通道）
+      var flowMat = new THREE.MeshBasicMaterial({ color: 0x55ccff, transparent: true, opacity: 0.8 });
+      for (var ay = 0; ay &lt; 3; ay++) {
+        var arrow = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0),
+          new THREE.Vector3(-19, 103 + ay * 22, 3), 24, 0x55ccff, 5, 3);
+        arrow.line.material = new THREE.LineBasicMaterial({ color: 0x55ccff, transparent: true, opacity: 0.8 });
+        arrow.cone.material = flowMat;
+        scene.add(arrow);
+      }
+      scene.add(new THREE.Mesh(halfCylSurface(8, BRASS_MM, 48, 12), brassMat));
+      // 分段带式加热圈：4mm 宽带 × 6mm 间隙 × 10 圈，覆盖 ≈ 94mm（炽热橙色）
+      var coilMat = new THREE.MeshStandardMaterial({
+        color: 0x9a5a30, roughness: 0.4, metalness: 0.8,
+        emissive: 0xff4a12, emissiveIntensity: 0.45, side: THREE.DoubleSide
+      });
+      for (var k = 0; k &lt; 10; k++) {
+        var by = 1 + k * 10;
+        var bOut = halfCylSurface(8.7, 4, 48, 2); bOut.translate(0, by, 0);
+        var bIn = halfCylSurface(8.0, 4, 48, 2); bIn.translate(0, by, 0);
+        scene.add(new THREE.Mesh(bOut, coilMat));
+        scene.add(new THREE.Mesh(bIn, coilMat));
+        scene.add(new THREE.Mesh(rectFace(-8.7, -8.0, by, by + 4, 0), coilMat));
+        scene.add(new THREE.Mesh(rectFace(8.0, 8.7, by, by + 4, 0), coilMat));
+      }
+      var brassInner = null, brassSectL = null, brassSectR = null, cone = null;
+      function rebuildBore() {
+        var rb = state.Db / 2;
+        if (brassInner) { scene.remove(brassInner); brassInner.geometry.dispose(); }
+        if (brassSectL) { scene.remove(brassSectL); brassSectL.geometry.dispose(); }
+        if (brassSectR) { scene.remove(brassSectR); brassSectR.geometry.dispose(); }
+        if (cone) { scene.remove(cone); cone.geometry.dispose(); }
+        brassInner = new THREE.Mesh(halfCylSurface(rb, BRASS_MM, 48, 12), brassMat);
+        brassSectL = new THREE.Mesh(rectFace(-8, -rb, 0, BRASS_MM, 0), brassMat);
+        brassSectR = new THREE.Mesh(rectFace(rb, 8, 0, BRASS_MM, 0), brassMat);
+        cone = new THREE.Mesh(halfConeSurface(rb, 0.75, 2, 28, 4), brassMat);
+        cone.position.y = 0;
+        scene.add(brassInner);
+        scene.add(brassSectL);
+        scene.add(brassSectR);
+        scene.add(cone);
+      }
+      rebuildBore();
+      // 外部黄铜喷嘴：六角体 + 锥尖（背半剖，出口 Φ1.5）
+      var nozBody = new THREE.CylinderGeometry(5.5, 5.5, 8, 6, 1, false, Math.PI / 2, Math.PI);
+      var nozBodyMesh = new THREE.Mesh(nozBody, brassMat);
+      nozBodyMesh.position.y = -6;
+      scene.add(nozBodyMesh);
+      scene.add(new THREE.Mesh(rectFace(-5.5, -0.75, -10, -2, 0), brassMat));
+      scene.add(new THREE.Mesh(rectFace(0.75, 5.5, -10, -2, 0), brassMat));
+      var nozCone = new THREE.CylinderGeometry(0.75, 5.5, 4, 16, 1, false, Math.PI / 2, Math.PI);
+      var nozConeMesh = new THREE.Mesh(nozCone, brassMat);
+      nozConeMesh.position.y = -12;
+      scene.add(nozConeMesh);
+      var coneFace = new THREE.BufferGeometry();
+      var cfp = [-5.5, -10, 5.5, -10, 0.75, -14, -0.75, -14];
+      coneFace.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute([cfp[0], cfp[1], 0, cfp[2], cfp[3], 0, cfp[4], cfp[5], 0, cfp[6], cfp[7], 0], 3));
+      coneFace.setIndex([0, 1, 2, 0, 2, 3]);
+      coneFace.computeVertexNormals();
+      scene.add(new THREE.Mesh(coneFace, brassMat));
+      // 喷嘴内熔体（高温，出口 Φ1.5）
+      var polNoz = new THREE.Mesh(halfCylSurface(0.75, 12, 20, 8), polMat);
+      polNoz.position.set(0, -2, 0);
+      scene.add(polNoz);
+      var polNozFace = new THREE.Mesh(rectFace(-0.75, 0.75, -2, -14, 0), polMat);
+      scene.add(polNozFace);
+      var polTip = new THREE.Mesh(new THREE.CircleGeometry(0.75, 20), polMat);
+      polTip.rotation.x = Math.PI / 2;
+      polTip.position.set(0, -14.01, 0);
+      scene.add(polTip);
+
+      var filTopGeo = halfCylSurface(R_POL, 17, 16, 6);
+      filTopGeo.translate(0, 183, 0);
+      var filTop = new THREE.Mesh(filTopGeo, filMat);
+      scene.add(filTop);
+      var filTopFace = new THREE.Mesh(rectFace(-R_POL, R_POL, 183, 200, 0), filMat);
+      scene.add(filTopFace);
+      var filHbGeo = halfCylSurface(R_POL, PREHEAT_MM, 16, 12);
+      filHbGeo.translate(0, 95, 0);
+      var filHb = new THREE.Mesh(filHbGeo, filMat);
+      scene.add(filHb);
+      var filHbFace = new THREE.Mesh(rectFace(-R_POL, R_POL, 95, 183, 0), filMat);
+      scene.add(filHbFace);
+
+      var polCurved = new THREE.Mesh(halfCylSurface(R_POL, BRASS_MM, 24, 60), polMat);
+      var polFace = new THREE.Mesh(rectFace(-R_POL, R_POL, 0, BRASS_MM, 0), polMat);
+      scene.add(polCurved);
+      scene.add(polFace);
+
+      var bars = [];
+      for (var i = 0; i &lt; 4; i++) {
+        var b = new THREE.Mesh(new THREE.BoxGeometry(2.35, 0.55, 0.12), barMat);
+        b.position.set(0, i * 95 / 4, 0.16);
+        scene.add(b);
+        bars.push(b);
+      }
+      var frontBar = new THREE.Mesh(new THREE.BoxGeometry(2.35, 0.10, 0.12), frontMat);
+      frontBar.position.set(0, 50, 0.16);
+      scene.add(frontBar);
+
+      // 耗材/聚合物相关网格：随耗材直径缩放（x/z 径向）
+      var scalables = [polCurved, polFace, filHb, filHbFace, filTop, filTopFace, frontBar];
+      for (var si = 0; si &lt; bars.length; si++) scalables.push(bars[si]);
+      function applyFilScale() {
+        var s = state.Dfil / 2.85;
+        for (var i = 0; i &lt; scalables.length; i++) scalables[i].scale.set(s, 1, s);
+      }
+      applyFilScale();
+
+      // 地面：圆形软光台 + 接收阴影
+      var grdC = document.createElement(&quot;canvas&quot;); grdC.width = 128; grdC.height = 128;
+      var grdX = grdC.getContext(&quot;2d&quot;);
+      var grdG = grdX.createRadialGradient(64, 64, 8, 64, 64, 64);
+      grdG.addColorStop(0, &quot;rgba(120,140,170,0.5)&quot;);
+      grdG.addColorStop(0.6, &quot;rgba(70,88,115,0.22)&quot;);
+      grdG.addColorStop(1, &quot;rgba(40,52,72,0)&quot;);
+      grdX.fillStyle = grdG; grdX.fillRect(0, 0, 128, 128);
+      var ground = new THREE.Mesh(
+        new THREE.CircleGeometry(75, 48),
+        new THREE.MeshStandardMaterial({ color: 0x6f7d90, roughness: 0.9, metalness: 0, transparent: true, map: new THREE.CanvasTexture(grdC) })
+      );
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -15.5;
+      ground.receiveShadow = true;
+      scene.add(ground);
+
+      // 实体部件投射阴影（聚合物/标记除外）
+      scene.traverse(function (o) {
+        if (o.isMesh) {
+          var mm = o.material;
+          if (mm !== polMat &amp;&amp; mm !== filMat &amp;&amp; mm !== barMat &amp;&amp; mm !== frontMat) {
+            o.castShadow = true;
+          }
+        }
+      });
+
+      // 部件标注：Sprite 文字标签 + 引线（始终朝向镜头）
+      function makeLabel(text, pos, color) {
+        var c = document.createElement(&quot;canvas&quot;);
+        c.width = 640; c.height = 96;
+        var g = c.getContext(&quot;2d&quot;);
+        g.font = &quot;500 36px -apple-system, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, &#x27;Noto Sans CJK SC&#x27;, sans-serif&quot;;
+        var tw = g.measureText(text).width;
+        var w = Math.min(tw + 46, 620);
+        g.fillStyle = &quot;rgba(10,14,22,0.82)&quot;;
+        g.fillRect(0, 0, w, 96);
+        g.fillStyle = color;
+        g.fillRect(0, 0, 8, 96);
+        g.fillStyle = &quot;#ffffff&quot;;
+        g.textBaseline = &quot;middle&quot;;
+        g.fillText(text, 26, 50);
+        var tex = new THREE.CanvasTexture(c);
+        tex.minFilter = THREE.LinearFilter;
+        var sp = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: tex, transparent: true, depthTest: false, depthWrite: false
+        }));
+        sp.position.copy(pos);
+        var s = 38;
+        sp.scale.set(s * w / 640, s * 96 / 640, 1);
+        scene.add(sp);
+        return sp;
+      }
+      function makeLeader(from, to) {
+        var g = new THREE.BufferGeometry();
+        g.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(
+          [from.x, from.y, from.z, to.x, to.y, to.z], 3));
+        scene.add(new THREE.Line(g, new THREE.LineBasicMaterial({
+          color: 0xffffff, transparent: true, opacity: 0.45
+        })));
+      }
+      var L = [];
+      L.push([&quot;4028 风扇 @24000 rpm（径向吹）&quot;, new THREE.Vector3(-58, 125, 10), new THREE.Vector3(-36, 125, 4), &quot;#8ab4ff&quot;]);
+      L.push([&quot;铝散热片 Φ35×60&quot;, new THREE.Vector3(38, 130, 10), new THREE.Vector3(22, 130, 6), &quot;#c7d0da&quot;]);
+      L.push([&quot;导热硅脂 0.05mm&quot;, new THREE.Vector3(24, 118, 14), new THREE.Vector3(4.5, 118, 6), &quot;#8f9aa5&quot;]);
+      L.push([&quot;黄铜溶腔 Φ6/Φ3.2&quot;, new THREE.Vector3(26, 100, 12), new THREE.Vector3(4, 100, 6), &quot;#aeb8c2&quot;]);
+      L.push([&quot;分段带式加热圈 4×6mm · 10圈&quot;, new THREE.Vector3(32, 45, 10), new THREE.Vector3(11, 45, 6), &quot;#ff7a3d&quot;]);
+      L.push([&quot;黄铜熔腔 Φ16/Φ3.2&quot;, new THREE.Vector3(34, 70, 10), new THREE.Vector3(12, 70, 6), &quot;#e0b04a&quot;]);
+      L.push([&quot;锥度喷嘴 Φ1.5 出口&quot;, new THREE.Vector3(24, -9, 10), new THREE.Vector3(10, -9, 6), &quot;#e0b04a&quot;]);
+      L.push([&quot;耗材 Φ2.85（可变）&quot;, new THREE.Vector3(36, 158, 14), new THREE.Vector3(4, 158, 8), &quot;#5aa0ff&quot;]);
+      for (var li = 0; li &lt; L.length; li++) {
+        makeLabel(L[li][0], L[li][1], L[li][3]);
+        makeLeader(L[li][1], L[li][2]);
+      }
+
+      function colorGeometry(geo, fn) {
+        var pos = geo.getAttribute(&quot;position&quot;);
+        var n = pos.count, col = new Float32Array(n * 3);
+        for (var i = 0; i &lt; n; i++) {
+          var x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+          var c = fn(y, Math.sqrt(x*x + z*z));
+          col[i*3] = c[0]/255; col[i*3+1] = c[1]/255; col[i*3+2] = c[2]/255;
+        }
+        geo.setAttribute(&quot;color&quot;, new THREE.Float32BufferAttribute(col, 3));
+      }
+
+      function render() {
+        var m = MAT[state.mat];
+        // FEA 反馈：风扇转速 → 换热系数 h → 冷端温度 → 进料温度 → 熔化能力
+        var h = hFromRPM(state.rpm);
+        var tc = 25 + (interp(FEA_H, FEA_TC, h) - 25) * (state.Tw - 25) / 210;
+        var wr = wallRatioSeg();
+        state.T0 = Math.max(25, Math.min(90, tc + 15 * wr));
+        var qhb = interp(FEA_QH, FEA_H, h) * wr * (state.Tw - 35) / 200;
+        var field = solveField(m, state.Q, state.Tw, state.T0);
+        var core = field[field.length-1][0], crit = m.Tg + 40;
+        var pass = core &gt;= crit;
+        var qm = qmax(m, state.Tw, state.T0);
+        var pb = pressureBudget(m, state.Q, state.Tw, state.Db);
+
+        var zf = -1;
+        for (var i = 0; i &lt; field.length; i++) if (field[i][0] &gt;= m.Tg) { zf = i; break; }
+        frontBar.position.y = zf &gt;= 0 ? BRASS_MM - zf : -3;
+
+        colorGeometry(polCurved.geometry, function (y, r) { return tempColor(fieldT(field, y, r), 25, state.Tw); });
+        colorGeometry(polFace.geometry, function (y, r) { return tempColor(fieldT(field, y, r), 25, state.Tw); });
+        colorGeometry(filHb.geometry, function (y, r) { return tempColor(25 + (y - 95) / PREHEAT_MM * Math.max(state.T0 - 25, 0), 25, state.Tw); });
+        colorGeometry(filHbFace.geometry, function (y, r) { return tempColor(25 + (y - 95) / PREHEAT_MM * Math.max(state.T0 - 25, 0), 25, state.Tw); });
+        colorGeometry(filTop.geometry, function () { return tempColor(30, 25, state.Tw); });
+        colorGeometry(filTopFace.geometry, function () { return tempColor(30, 25, state.Tw); });
+        colorGeometry(polTip.geometry, function () { return tempColor(state.Tw, 25, state.Tw); });
+        colorGeometry(polNoz.geometry, function () { return tempColor(state.Tw, 25, state.Tw); });
+        colorGeometry(polNozFace.geometry, function () { return tempColor(state.Tw, 25, state.Tw); });
+
+        hotMat.color.set(new THREE.Color(rgbCss(tempColor(state.Tw, 25, state.Tw))));
+        cone.material = hotMat;
+
+        el(&quot;hs3-core&quot;).textContent = core.toFixed(0) + &quot; °C&quot;;
+        el(&quot;hs3-core-ctx&quot;).innerHTML = &quot;判据 &quot; + crit.toFixed(0) + &quot; °C（Tg+40）· &quot; +
+          (pass ? &#x27;&lt;span class=&quot;viz-badge&quot;&gt;达标&lt;/span&gt;&#x27; : &#x27;&lt;span class=&quot;viz-badge text-destructive&quot;&gt;不足&lt;/span&gt;&#x27;);
+        el(&quot;hs3-qmax&quot;).textContent = qm.toFixed(0) + &quot; mm³/s&quot;;
+        el(&quot;hs3-qmax-ctx&quot;).textContent = &quot;当前 &quot; + state.Q.toFixed(1) + &quot; · 对应速度 &quot; + (qm/0.9).toFixed(0) + &quot; mm/s（0.6×1.5）&quot;;
+        el(&quot;hs3-qhb&quot;).textContent = qhb.toFixed(1) + &quot; W&quot;;
+        el(&quot;hs3-hb-ctx&quot;).textContent = &quot;冷端 &quot; + tc.toFixed(0) + &quot;°C · 进料 &quot; + state.T0.toFixed(0)
+          + &quot;°C（FEA反馈）&quot; + (tc &gt;= m.Tg - 10 ? &quot; · 热爬升风险&quot; : &quot;&quot;);
+        el(&quot;hs3-dp&quot;).textContent = pb.MPa.toFixed(2) + &quot; MPa&quot;;
+        el(&quot;hs3-dp-ctx&quot;).textContent = &quot;喷嘴锥度+熔腔(熔膜) · 挤出力 &quot; + pb.N.toFixed(0) + &quot; N&quot;;
+        updateColorbar();
+      }
+
+      function updateColorbar() {
+        var stops = [0, 0.17, 0.34, 0.5, 0.66, 0.83, 1].map(function (t) {
+          var c = tempColor(25 + t * (state.Tw - 25), 25, state.Tw);
+          return &quot;rgb(&quot; + c[0] + &quot;,&quot; + c[1] + &quot;,&quot; + c[2] + &quot;) &quot; + Math.round(t * 100) + &quot;%&quot;;
+        });
+        el(&quot;hs3-cbar&quot;).style.background = &quot;linear-gradient(to top, &quot; + stops.join(&quot;,&quot;) + &quot;)&quot;;
+        el(&quot;hs3-cbar-top&quot;).textContent = state.Tw + &quot;°C&quot;;
+        el(&quot;hs3-cbar-mid&quot;).textContent = Math.round((state.Tw + 25) / 2) + &quot;°C&quot;;
+        el(&quot;hs3-cbar-bot&quot;).textContent = &quot;25°C&quot;;
+      }
+
+      function syncControls() {
+        var m = MAT[state.mat];
+        var feed = state.Q / (Math.PI / 4 * state.Dfil * state.Dfil);
+        el(&quot;hs3-q-val&quot;).textContent = state.Q.toFixed(1) + &quot; mm³/s · 进料 &quot; + feed.toFixed(1)
+          + &quot; mm/s（打印 &quot; + (state.Q/0.9).toFixed(0) + &quot; mm/s）&quot;;
+        el(&quot;hs3-tw-val&quot;).textContent = state.Tw + &quot; °C&quot;;
+        el(&quot;hs3-rpm-val&quot;).textContent = state.rpm.toLocaleString() + &quot; rpm&quot;;
+        el(&quot;hs3-db-val&quot;).textContent = state.Db.toFixed(2) + &quot; mm&quot;;
+        el(&quot;hs3-dfil-val&quot;).textContent = state.Dfil.toFixed(2) + &quot; mm&quot;;
+        for (var si = 0; si &lt; 3; si++) {
+          var seEl = el(&quot;hs3-seg&quot; + (si + 1));
+          seEl.min = Math.max(2.5, Math.min(4.5, state.Dfil + 0.1));
+          el(&quot;hs3-seg&quot; + (si + 1) + &quot;-val&quot;).textContent = state.seg[si].toFixed(1) + &quot; mm&quot;;
+        }
+        el(&quot;hs3-b1-val&quot;).textContent = state.segB[0] + &quot; mm&quot;;
+        el(&quot;hs3-b2-val&quot;).textContent = state.segB[1] + &quot; mm&quot;;
+        var tw = el(&quot;hs3-tw&quot;);
+        tw.min = m.Tmin; tw.max = m.Tmax;
+        var dbEl = el(&quot;hs3-db&quot;);
+        dbEl.min = Math.max(2.8, state.Dfil + 0.1);
+        var stEl = el(&quot;hs3-tb-status&quot;);
+        if (stEl) stEl.textContent = state.mat + &quot; · &quot; + (state.anim ? &quot;动画运行中&quot; : &quot;动画已暂停&quot;);
+      }
+
+      el(&quot;hs3-mat&quot;).addEventListener(&quot;change&quot;, function (e) {
+        state.mat = e.target.value;
+        var m = MAT[state.mat];
+        state.Q = m.Qdef; state.Tw = m.Tdef;
+        el(&quot;hs3-q&quot;).value = state.Q;
+        el(&quot;hs3-tw&quot;).value = state.Tw;
+        syncControls(); render();
+      });
+      el(&quot;hs3-q&quot;).addEventListener(&quot;input&quot;, function (e) { state.Q = +e.target.value; syncControls(); render(); });
+      el(&quot;hs3-tw&quot;).addEventListener(&quot;input&quot;, function (e) { state.Tw = +e.target.value; syncControls(); render(); });
+      el(&quot;hs3-rpm&quot;).addEventListener(&quot;input&quot;, function (e) { state.rpm = +e.target.value; syncControls(); render(); });
+      el(&quot;hs3-db&quot;).addEventListener(&quot;input&quot;, function (e) { state.Db = +e.target.value; rebuildBore(); syncControls(); render(); });
+      el(&quot;hs3-dfil&quot;).addEventListener(&quot;input&quot;, function (e) {
+        state.Dfil = +e.target.value;
+        if (state.Db &lt; state.Dfil + 0.1) {
+          state.Db = Math.max(2.8, state.Dfil + 0.1);
+          el(&quot;hs3-db&quot;).value = state.Db;
+        }
+        for (var si = 0; si &lt; 3; si++) {
+          if (state.seg[si] &lt; state.Dfil + 0.1) {
+            state.seg[si] = state.Dfil + 0.1;
+            el(&quot;hs3-seg&quot; + (si + 1)).value = state.seg[si];
+          }
+        }
+        rebuildBore();
+        rebuildThroat();
+        applyFilScale();
+        syncControls(); render();
+      });
+      el(&quot;hs3-seg1&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[0] = +e.target.value; rebuildThroat(); syncControls(); render(); });
+      el(&quot;hs3-seg2&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[1] = +e.target.value; rebuildThroat(); syncControls(); render(); });
+      el(&quot;hs3-seg3&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[2] = +e.target.value; rebuildThroat(); syncControls(); render(); });
+      el(&quot;hs3-b1&quot;).addEventListener(&quot;input&quot;, function (e) {
+        state.segB[0] = Math.min(+e.target.value, state.segB[1] - 10);
+        el(&quot;hs3-b1&quot;).value = state.segB[0];
+        updateHandles(); rebuildThroat(); syncControls(); render();
+      });
+      el(&quot;hs3-b2&quot;).addEventListener(&quot;input&quot;, function (e) {
+        state.segB[1] = Math.max(+e.target.value, state.segB[0] + 10);
+        el(&quot;hs3-b2&quot;).value = state.segB[1];
+        updateHandles(); rebuildThroat(); syncControls(); render();
+      });
+      el(&quot;hs3-anim&quot;).addEventListener(&quot;click&quot;, function () {
+        state.anim = !state.anim;
+        el(&quot;hs3-anim&quot;).textContent = state.anim ? &quot;暂停动画&quot; : &quot;播放动画&quot;;
+        var stEl = el(&quot;hs3-tb-status&quot;);
+        if (stEl) stEl.textContent = state.mat + &quot; · &quot; + (state.anim ? &quot;动画运行中&quot; : &quot;动画已暂停&quot;);
+      });
+
+      function resize() {
+        var w = holder.clientWidth, h = holder.clientHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      if (window.ResizeObserver) {
+        new ResizeObserver(resize).observe(holder);
+      } else {
+        window.addEventListener(&quot;resize&quot;, resize);
+      }
+      resize();
+
+      var animT = 0, last = performance.now();
+      function animate(now) {
+        var dt = (now - last) / 1000; last = now;
+        animT += dt;
+        if (state.anim) {
+          var feed = state.Q / (Math.PI / 4 * state.Dfil * state.Dfil);
+          var speed = 1.1 * feed;
+          for (var i = 0; i &lt; bars.length; i++) {
+            bars[i].position.y = (animT * speed + i * 95 / bars.length) % 95;
+          }
+        }
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      renderer.setAnimationLoop(animate);
+
+      syncControls();
+      el(&quot;hs3-anim&quot;).textContent = state.anim ? &quot;暂停动画&quot; : &quot;播放动画&quot;;
+      render();
+    } catch (err) {
+      fail(String(err &amp;&amp; err.message || err));
+    }
+  })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>

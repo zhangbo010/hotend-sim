@@ -971,7 +971,7 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   &lt;div class=&quot;viz-row&quot; style=&quot;align-items:flex-start;gap:12px&quot;&gt;
     &lt;div style=&quot;flex:1.5;min-width:270px&quot;&gt;
-      &lt;div class=&quot;text-muted text-small&quot; style=&quot;margin-bottom:4px&quot;&gt;拖动旋转 · 滚轮缩放 · 黄色小球=拖拽溶腔段界 · 黄色横条=进料流动 · 青色线=熔融前沿（芯部≥Tg）&lt;/div&gt;
+      &lt;div class=&quot;text-muted text-small&quot; style=&quot;margin-bottom:4px&quot;&gt;拖动旋转 · 滚轮缩放 · 黄色小球=拖拽溶腔段界 · 黄色横条=进料流动 · 青色线=熔融前沿（芯部≥Tg）· 点击模型=显示该点温度&lt;/div&gt;
       &lt;div id=&quot;hs3-canvas&quot; style=&quot;position:relative;height:440px;border-radius:8px;overflow:hidden&quot;&gt;
         &lt;div id=&quot;hs3-cbar-wrap&quot; style=&quot;position:absolute;top:12px;right:12px;bottom:30px;width:72px;pointer-events:none;z-index:2;display:flex;align-items:stretch&quot;&gt;
           &lt;div style=&quot;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;line-height:1.1;color:var(--muted-foreground);padding-right:6px;text-align:right&quot;&gt;
@@ -1106,6 +1106,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       };
       var R_POL = 1.425, BRASS_MM = 95, HB_MM = 60, PREHEAT_MM = 88;
       var state = { mat: &quot;ABS&quot;, Q: 150, Tw: 235, Db: 3.2, Dfil: 2.85, rpm: 24000 };
+      var lastField = null, lastTC = 25;
       state.seg = [3.2, 3.2, 3.2];     // 溶腔 3 段内径（外径固定 Φ6）
       state.segB = [20, 40];            // 段界位置（距溶腔底部 mm，0..60）
       state.anim = !reduce;
@@ -1423,6 +1424,112 @@ html&gt;body{padding:0}&lt;/style&gt;
       window.addEventListener(&quot;pointerup&quot;, function () {
         if (dragging !== null) { dragging = null; controls.enabled = true; }
       });
+      // 点击模型任意位置 → 显示该点温度（聚合物用 FEA 场插值；金属件按热端 FEA 结果估算）
+      var pickActive = false, pickMat = null, pickPoint = null;
+      var pickMark = new THREE.Mesh(new THREE.SphereGeometry(0.95, 14, 10),
+        new THREE.MeshBasicMaterial({ depthTest: false, transparent: true, opacity: 0.95 }));
+      pickMark.visible = false;
+      scene.add(pickMark);
+      var pickHalo = new THREE.Mesh(new THREE.SphereGeometry(1.8, 18, 12),
+        new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false, transparent: true, opacity: 0.3 }));
+      pickHalo.visible = false;
+      scene.add(pickHalo);
+      var pickTip = document.createElement(&quot;div&quot;);
+      pickTip.style.cssText = &quot;position:fixed;z-index:100;pointer-events:none;padding:8px 11px;border-radius:8px;&quot; +
+        &quot;background:rgba(10,14,22,.93);border:1px solid rgba(255,255,255,.2);color:#fff;&quot; +
+        &quot;font:12px/1.5 -apple-system,&#x27;PingFang SC&#x27;,&#x27;Microsoft YaHei&#x27;,sans-serif;&quot; +
+        &quot;box-shadow:0 5px 16px rgba(0,0,0,.4);display:none;max-width:280px;white-space:nowrap&quot;;
+      document.body.appendChild(pickTip);
+      function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+      function tempInfo(o, pt) {
+        var y = pt.y, r = Math.sqrt(pt.x * pt.x + pt.z * pt.z);
+        var m = o.material, T = NaN, name = &quot;&quot;, est = false;
+        if (m === polMat || m === filMat) {
+          if (y &gt; BRASS_MM + 1e-3) {
+            if (y &gt; BRASS_MM + PREHEAT_MM) { name = &quot;耗材冷段（进料端）&quot;; T = 30; }
+            else { name = &quot;耗材预热段（喉管内）&quot;; T = 25 + (y - BRASS_MM) / PREHEAT_MM * Math.max(state.T0 - 25, 0); }
+          } else if (y &lt; 0) {
+            name = &quot;喷嘴内熔体&quot;; T = state.Tw;
+          } else {
+            name = &quot;耗材熔体（黄铜熔腔内）&quot;; T = lastField ? fieldT(lastField, y, r) : NaN;
+          }
+        } else if (m === brassMat) {
+          name = y &gt;= -1 ? &quot;黄铜熔腔（外Φ16）&quot; : &quot;黄铜喷嘴（出口Φ1.5）&quot;; T = state.Tw;
+        } else if (m === hotMat) {
+          name = &quot;锥度段（喷嘴内 Φ3.2→Φ1.5）&quot;; T = state.Tw;
+        } else if (m === steelMat) {
+          name = &quot;不锈钢喉管&quot;; T = lastTC + (state.Tw - lastTC) * clamp01((155 - y) / 60); est = true;
+        } else if (m === hsMat) {
+          name = &quot;铝散热片&quot;; T = lastTC + (state.Tw - lastTC) * clamp01((155 - y) / 60); est = true;
+        } else if (m === greaseMat) {
+          name = &quot;导热硅脂（0.05mm）&quot;; T = lastTC + (state.Tw - lastTC) * clamp01((155 - y) / 60); est = true;
+        } else if (m === coilMat) {
+          name = &quot;分段带式加热圈&quot;; T = state.Tw;
+        } else {
+          return null;
+        }
+        if (!isFinite(T)) return null;
+        return { name: name, T: T, y: y, r: r, est: est };
+      }
+      function pickTipHTML(info) {
+        var c = tempColor(info.T, 25, state.Tw);
+        var sw = &quot;rgb(&quot; + c[0] + &quot;,&quot; + c[1] + &quot;,&quot; + c[2] + &quot;)&quot;;
+        return &#x27;&lt;div style=&quot;display:flex;align-items:center;gap:7px;margin-bottom:4px&quot;&gt;&#x27; +
+          &#x27;&lt;span style=&quot;width:11px;height:11px;border-radius:3px;background:&#x27; + sw + &#x27;;border:1px solid rgba(255,255,255,.4)&quot;&gt;&lt;/span&gt;&#x27; +
+          &#x27;&lt;b style=&quot;font-size:12.5px&quot;&gt;&#x27; + info.name + &#x27;&lt;/b&gt;&lt;/div&gt;&#x27; +
+          &#x27;&lt;div style=&quot;opacity:.85&quot;&gt;距喷嘴出口 &#x27; + (info.y + 14).toFixed(1) + &#x27; mm · 半径 &#x27; + info.r.toFixed(2) + &#x27; mm&lt;/div&gt;&#x27; +
+          &#x27;&lt;div style=&quot;margin-top:2px;font-weight:600&quot;&gt;温度 &#x27; + info.T.toFixed(0) + &#x27; °C&#x27; + (info.est ? &#x27;（估算）&#x27; : &#x27;&#x27;) + &#x27;&lt;/div&gt;&#x27;;
+      }
+      function showPick(e, info, pt) {
+        pickActive = true; pickMat = info.mat; pickPoint = pt.clone();
+        var c = tempColor(info.T, 25, state.Tw);
+        pickMark.material.color.set(new THREE.Color(c[0] / 255, c[1] / 255, c[2] / 255));
+        pickMark.position.copy(pt);
+        pickHalo.position.copy(pt);
+        pickMark.visible = true; pickHalo.visible = true;
+        pickTip.innerHTML = pickTipHTML(info);
+        pickTip.style.display = &quot;block&quot;;
+        var vw = window.innerWidth || document.documentElement.clientWidth;
+        var tw = pickTip.offsetWidth || 240;
+        var left = e.clientX + 16, top = e.clientY - 24;
+        if (left + tw &gt; vw - 8) left = e.clientX - tw - 16;
+        pickTip.style.left = Math.max(8, left) + &quot;px&quot;;
+        pickTip.style.top = Math.max(8, top) + &quot;px&quot;;
+      }
+      function refreshPick() {
+        if (!pickActive || !pickMat || !pickPoint) return;
+        var info = tempInfo({ material: pickMat }, pickPoint);
+        if (!info) return;
+        var c = tempColor(info.T, 25, state.Tw);
+        pickMark.material.color.set(new THREE.Color(c[0] / 255, c[1] / 255, c[2] / 255));
+        pickTip.innerHTML = pickTipHTML(info);
+      }
+      function hidePick() {
+        pickActive = false; pickMat = null; pickPoint = null;
+        pickMark.visible = false; pickHalo.visible = false;
+        pickTip.style.display = &quot;none&quot;;
+      }
+      var downX = 0, downY = 0, pickMoved = false;
+      renderer.domElement.addEventListener(&quot;pointerdown&quot;, function (e) {
+        downX = e.clientX; downY = e.clientY; pickMoved = false;
+      });
+      renderer.domElement.addEventListener(&quot;pointermove&quot;, function (e) {
+        if (dragging !== null) { pickMoved = true; return; }
+        if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) &gt; 5) pickMoved = true;
+      });
+      renderer.domElement.addEventListener(&quot;pointerup&quot;, function (e) {
+        if (dragging !== null || pickMoved) return;
+        setMouse(e);
+        raycaster.setFromCamera(mouse, camera);
+        var hits = raycaster.intersectObjects(scene.children, true);
+        for (var i = 0; i &lt; hits.length; i++) {
+          var o = hits[i].object;
+          if (!o.isMesh) continue;
+          var info = tempInfo(o, hits[i].point);
+          if (info) { info.mat = o.material; showPick(e, info, hits[i].point); return; }
+        }
+        hidePick();
+      });
       window.addEventListener(&quot;pointercancel&quot;, function () {
         if (dragging !== null) { dragging = null; controls.enabled = true; }
       });
@@ -1644,6 +1751,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         state.T0 = Math.max(25, Math.min(90, tc + 15 * wr));
         var qhb = interp(FEA_QH, FEA_H, h) * wr * (state.Tw - 35) / 200;
         var field = solveField(m, state.Q, state.Tw, state.T0);
+        lastField = field; lastTC = tc;
         var core = field[field.length-1][0], crit = m.Tg + 40;
         var pass = core &gt;= crit;
         var qm = qmax(m, state.Tw, state.T0);
@@ -1677,6 +1785,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         el(&quot;hs3-dp&quot;).textContent = pb.MPa.toFixed(2) + &quot; MPa&quot;;
         el(&quot;hs3-dp-ctx&quot;).textContent = &quot;喷嘴锥度+熔腔(熔膜) · 挤出力 &quot; + pb.N.toFixed(0) + &quot; N&quot;;
         updateColorbar();
+        refreshPick();
       }
 
       function updateColorbar() {

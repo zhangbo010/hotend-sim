@@ -945,6 +945,26 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;label class=&quot;form-label&quot; for=&quot;hs3-b2&quot;&gt;段界2 &lt;span id=&quot;hs3-b2-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
       &lt;input type=&quot;range&quot; id=&quot;hs3-b2&quot; class=&quot;form-range&quot; min=&quot;15&quot; max=&quot;55&quot; step=&quot;1&quot; value=&quot;40&quot;&gt;
     &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-surf&quot;&gt;内壁工艺 &lt;span id=&quot;hs3-surf-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;select id=&quot;hs3-surf&quot; class=&quot;form-select&quot;&gt;
+        &lt;option value=&quot;drill&quot; selected&gt;钻孔（麻花钻，未抛光）&lt;/option&gt;
+        &lt;option value=&quot;ream&quot;&gt;铰孔&lt;/option&gt;
+        &lt;option value=&quot;hone&quot;&gt;珩磨 / 磨粒流&lt;/option&gt;
+        &lt;option value=&quot;epolish&quot;&gt;电解抛光&lt;/option&gt;
+        &lt;option value=&quot;cpolish&quot;&gt;化学抛光&lt;/option&gt;
+        &lt;option value=&quot;custom&quot;&gt;自定义&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;hs3-ra&quot;&gt;内壁粗糙度 Ra &lt;span id=&quot;hs3-ra-val&quot; class=&quot;text-muted&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;hs3-ra&quot; class=&quot;form-range&quot; min=&quot;0.05&quot; max=&quot;6.4&quot; step=&quot;0.05&quot; value=&quot;3.2&quot;&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;padding-bottom:2px&quot;&gt;
+      &lt;label class=&quot;form-label&quot;&gt;&amp;nbsp;&lt;/label&gt;
+      &lt;button id=&quot;hs3-ra-reset&quot; class=&quot;btn&quot; type=&quot;button&quot;&gt;按工艺取默认 Ra&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
   &lt;/div&gt;
 
@@ -972,6 +992,12 @@ html&gt;body{padding:0}&lt;/style&gt;
   &lt;div class=&quot;viz-row&quot; style=&quot;align-items:flex-start;gap:12px&quot;&gt;
     &lt;div style=&quot;flex:1.5;min-width:270px&quot;&gt;
       &lt;div class=&quot;text-muted text-small&quot; style=&quot;margin-bottom:4px&quot;&gt;拖动旋转 · 滚轮缩放 · 黄色小球=拖拽溶腔段界 · 黄色横条=进料流动 · 青色线=熔融前沿（芯部≥Tg）· 点击模型=显示该点温度&lt;/div&gt;
+      &lt;div class=&quot;text-muted text-small&quot; style=&quot;margin:0 0 8px;line-height:1.35&quot;&gt;
+        &lt;b&gt;表面模型&lt;/b&gt;（新增）：
+        ① &lt;b&gt;熔化侧&lt;/b&gt; 接触热阻 R&lt;sub&gt;c&lt;/sub&gt; ≈ 0.15·Rz / k&lt;sub&gt;空气&lt;/sub&gt;（Rz≈4·Ra）→ 压低有效换热系数 h&lt;sub&gt;eff&lt;/sub&gt;，直接影响 Qmax；
+        ② &lt;b&gt;流动侧&lt;/b&gt; 壁面滑移 ΔP×(1−s)，s 仅在壁面剪应力超过临界值时生效、随 Ra 增大快速衰减（粗糙面抑制滑移）。
+        机理来自文献（熔体壁面滑移、界面接触热阻、ASME B46.1 粗糙度）；&lt;b&gt;系数为可标定默认值，量值未标定&lt;/b&gt;。
+      &lt;/div&gt;
       &lt;div id=&quot;hs3-canvas&quot; style=&quot;position:relative;height:440px;border-radius:8px;overflow:hidden&quot;&gt;
         &lt;div id=&quot;hs3-cbar-wrap&quot; style=&quot;position:absolute;top:12px;right:12px;bottom:30px;width:72px;pointer-events:none;z-index:2;display:flex;align-items:stretch&quot;&gt;
           &lt;div style=&quot;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;line-height:1.1;color:var(--muted-foreground);padding-right:6px;text-align:right&quot;&gt;
@@ -1003,6 +1029,11 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;div class=&quot;text-muted text-small&quot;&gt;挤出压力 ΔP&lt;/div&gt;
         &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-dp&quot;&gt;—&lt;/div&gt;
         &lt;div id=&quot;hs3-dp-ctx&quot; class=&quot;text-muted text-small&quot;&gt;—&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;div class=&quot;text-muted text-small&quot;&gt;内壁表面状态&lt;/div&gt;
+        &lt;div class=&quot;viz-stat-value&quot; id=&quot;hs3-surfstat&quot;&gt;—&lt;/div&gt;
+        &lt;div id=&quot;hs3-surfstat-ctx&quot; class=&quot;text-muted text-small&quot;&gt;—&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -1106,6 +1137,25 @@ html&gt;body{padding:0}&lt;/style&gt;
       };
       var R_POL = 1.425, BRASS_MM = 95, HB_MM = 60, PREHEAT_MM = 88;
       var state = { mat: &quot;ABS&quot;, Q: 150, Tw: 235, Db: 3.2, Dfil: 2.85, rpm: 24000 };
+    state.ra = 3.2;                 // 内壁粗糙度 Ra (μm)：默认 = 机加工钻孔、未抛光
+    state.surf = &quot;drill&quot;;
+    // 表面工艺 → 典型 Ra (μm)，取自 ASME B46.1 / 机加工粗糙度对照表
+    var SURF = {
+      drill:   { n: &quot;钻孔(未抛光)&quot;, ra: 3.2 },
+      ream:    { n: &quot;铰孔&quot;,        ra: 0.8 },
+      hone:    { n: &quot;珩磨/磨粒流&quot;,  ra: 0.2 },
+      epolish: { n: &quot;电解抛光&quot;,     ra: 0.4 },
+      cpolish: { n: &quot;化学抛光&quot;,     ra: 0.8 },
+      custom:  { n: &quot;自定义&quot;,       ra: null }
+    };
+    // ★ 表面模型标定系数（机理来自文献；量值未标定，留作标定接口）
+    var SURF_CAL = {
+      rcFrac: 0.15,   // 粗糙峰间有效气隙占 Rz 的比例
+      kAir:   0.026,  // 滞留空气导热 W/(m·K)
+      sMax:   0.25,   // 镜面极限滑移对 ΔP 的最大削减
+      raRef:  1.2,    // 滑移随 Ra 的衰减尺度 (μm)
+      tauC:   1.0e5   // 滑移起始的临界壁面剪应力 (Pa)
+    };
       var lastField = null, lastTC = 25;
       state.seg = [3.2, 3.2, 3.2];     // 溶腔 3 段内径（外径固定 Φ6）
       state.segB = [20, 40];            // 段界位置（距溶腔底部 mm，0..60）
@@ -1114,7 +1164,10 @@ html&gt;body{padding:0}&lt;/style&gt;
 
       function hEff(Db) {
         var gap = (Db - state.Dfil) / 2 * 1e-3;
-        return 0.20 / (0.7 * gap);
+        var Rfilm = (0.7 * gap) / 0.20;                 // 原有：环形间隙导热热阻（0.20 W/m·K）
+        var Rz = 4 * state.ra * 1e-6;                   // 峰谷高度 Rz ≈ 4·Ra (m)
+        var Rc = SURF_CAL.rcFrac * Rz / SURF_CAL.kAir;  // 新增：粗糙峰间微观气隙的接触热阻
+        return 1 / (Rfilm + Rc);                        // 原式 0.20/(0.7·gap) 等价于 1/Rfilm
       }
       // FEA 反馈模型（热端 FEA 扫描锚点插值）
       var FEA_H = [10, 25, 50, 100, 250];
@@ -1154,8 +1207,12 @@ html&gt;body{padding:0}&lt;/style&gt;
         var uf = Qm / (Math.PI * Rf * Rf);
         var gf = uf / gap;
         dp += 2 * K * Math.pow(gf, n) * 0.020 / Rf;
+        // —— 壁面滑移修正（文献：熔体超过临界壁面剪应力才滑移；粗糙面抑制滑移 → 越糙越接近无滑移解）——
+        var tauW = K * Math.pow(gl, n);                 // 喷嘴出口段壁面剪应力 (Pa) —— 全场剪切最高点
+        var slipS = (tauW &gt; SURF_CAL.tauC) ? SURF_CAL.sMax * Math.exp(-state.ra / SURF_CAL.raRef) : 0;
+        dp *= (1 - slipS);
         var F = dp * Math.PI / 4 * (state.Dfil * 1e-3) * (state.Dfil * 1e-3);
-        return { MPa: dp / 1e6, N: F };
+        return { MPa: dp / 1e6, N: F, slipS: slipS, tauW: tauW };
       }
 
       function tempColor(T, Tmin, Tmax) {
@@ -1783,7 +1840,16 @@ html&gt;body{padding:0}&lt;/style&gt;
         el(&quot;hs3-hb-ctx&quot;).textContent = &quot;冷端 &quot; + tc.toFixed(0) + &quot;°C · 进料 &quot; + state.T0.toFixed(0)
           + &quot;°C（FEA反馈）&quot; + (tc &gt;= m.Tg - 10 ? &quot; · 热爬升风险&quot; : &quot;&quot;);
         el(&quot;hs3-dp&quot;).textContent = pb.MPa.toFixed(2) + &quot; MPa&quot;;
-        el(&quot;hs3-dp-ctx&quot;).textContent = &quot;喷嘴锥度+熔腔(熔膜) · 挤出力 &quot; + pb.N.toFixed(0) + &quot; N&quot;;
+        el(&quot;hs3-dp-ctx&quot;).textContent = &quot;喷嘴锥度+熔腔(熔膜) · 挤出力 &quot; + pb.N.toFixed(0) + &quot; N · τw &quot;
+          + (pb.tauW / 1e6).toFixed(3) + &quot; / 临界 &quot; + (SURF_CAL.tauC / 1e6).toFixed(2) + &quot; MPa&quot;
+          + (pb.slipS &gt; 0.005 ? &quot; → 滑移 -&quot; + (pb.slipS * 100).toFixed(0) + &quot;%&quot; : &quot; → 未到滑移阈值(按无滑移算)&quot;);
+        // —— 内壁表面状态卡 ——
+        var gapUm = (state.Db - state.Dfil) / 2 * 1000, rzUm = 4 * state.ra;
+        var rzRatio = gapUm &gt; 0 ? rzUm / gapUm * 100 : 0;
+        var lv = rzRatio &lt; 2 ? [&quot;光滑&quot;, &quot;viz-badge&quot;] : (rzRatio &lt; 7 ? [&quot;偏糙&quot;, &quot;viz-badge&quot;] : [&quot;粗糙&quot;, &quot;viz-badge text-destructive&quot;]);
+        el(&quot;hs3-surfstat&quot;).textContent = &quot;Ra &quot; + state.ra.toFixed(2) + &quot; μm&quot;;
+        el(&quot;hs3-surfstat-ctx&quot;).innerHTML = SURF[state.surf].n + &quot; · Rz &quot; + rzUm.toFixed(1) + &quot; μm · 占间隙 &quot;
+          + rzRatio.toFixed(1) + &quot;% · &lt;span class=\&quot;&quot; + lv[1] + &quot;\&quot;&gt;&quot; + lv[0] + &quot;&lt;/span&gt;&quot;;
         updateColorbar();
         refreshPick();
       }
@@ -1808,6 +1874,8 @@ html&gt;body{padding:0}&lt;/style&gt;
         el(&quot;hs3-rpm-val&quot;).textContent = state.rpm.toLocaleString() + &quot; rpm&quot;;
         el(&quot;hs3-db-val&quot;).textContent = state.Db.toFixed(2) + &quot; mm&quot;;
         el(&quot;hs3-dfil-val&quot;).textContent = state.Dfil.toFixed(2) + &quot; mm&quot;;
+        el(&quot;hs3-ra-val&quot;).textContent = state.ra.toFixed(2) + &quot; μm&quot;;
+        el(&quot;hs3-surf-val&quot;).textContent = SURF[state.surf].n;
         for (var si = 0; si &lt; 3; si++) {
           var seEl = el(&quot;hs3-seg&quot; + (si + 1));
           seEl.min = Math.max(2.5, Math.min(4.5, state.Dfil + 0.1));
@@ -1855,6 +1923,20 @@ html&gt;body{padding:0}&lt;/style&gt;
       el(&quot;hs3-seg1&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[0] = +e.target.value; rebuildThroat(); syncControls(); render(); });
       el(&quot;hs3-seg2&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[1] = +e.target.value; rebuildThroat(); syncControls(); render(); });
       el(&quot;hs3-seg3&quot;).addEventListener(&quot;input&quot;, function (e) { state.seg[2] = +e.target.value; rebuildThroat(); syncControls(); render(); });
+      el(&quot;hs3-ra&quot;).addEventListener(&quot;input&quot;, function (e) {
+        state.ra = +e.target.value; state.surf = &quot;custom&quot;;
+        el(&quot;hs3-surf&quot;).value = &quot;custom&quot;;
+        syncControls(); render();
+      });
+      el(&quot;hs3-surf&quot;).addEventListener(&quot;change&quot;, function (e) {
+        state.surf = e.target.value;
+        if (SURF[state.surf].ra != null) { state.ra = SURF[state.surf].ra; el(&quot;hs3-ra&quot;).value = state.ra; }
+        syncControls(); render();
+      });
+      el(&quot;hs3-ra-reset&quot;).addEventListener(&quot;click&quot;, function () {
+        var r = SURF[state.surf].ra != null ? SURF[state.surf].ra : 3.2;
+        state.ra = r; el(&quot;hs3-ra&quot;).value = r; syncControls(); render();
+      });
       el(&quot;hs3-b1&quot;).addEventListener(&quot;input&quot;, function (e) {
         state.segB[0] = Math.min(+e.target.value, state.segB[1] - 10);
         el(&quot;hs3-b1&quot;).value = state.segB[0];
